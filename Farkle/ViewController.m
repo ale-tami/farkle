@@ -220,7 +220,7 @@ typedef enum {
         
         self.playerTurn = PLAYER_2;
         
-        if (self.player1ScoreInt >= 1000 || self.isLastTurnPlayer2) {
+        if (self.player1ScoreInt >= 10000 || self.isLastTurnPlayer2) {
             self.isLastTurnPlayer1 = YES;
         }
         
@@ -236,7 +236,7 @@ typedef enum {
         
         self.playerTurn = PLAYER_1;
         
-        if (self.player2ScoreInt >= 1000 || self.isLastTurnPlayer1) {
+        if (self.player2ScoreInt >= 10000 || self.isLastTurnPlayer1) {
             self.isLastTurnPlayer2 = YES;
         }
 
@@ -300,6 +300,8 @@ typedef enum {
     self.partialScoreInt = 0;
     self.playerTurn = PLAYER_1;
     self.isLastTurnPlayer1 = NO;
+    self.player2Score.text = @"0";
+    self.player1Score.text = @"0";
 }
 
 
