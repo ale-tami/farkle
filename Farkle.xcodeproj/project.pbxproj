@@ -23,6 +23,7 @@
 		4DAA498F1989604300592AC5 /* FarkleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DAA498E1989604300592AC5 /* FarkleTests.m */; };
 		4DAA49991989606200592AC5 /* CheckMate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DAA49981989606200592AC5 /* CheckMate.framework */; };
 		4DAA499C1989622100592AC5 /* DieLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DAA499B1989622100592AC5 /* DieLabel.m */; };
+		4DAA499F1989A78400592AC5 /* ScoreCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DAA499E1989A78400592AC5 /* ScoreCalculator.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +59,8 @@
 		4DAA49981989606200592AC5 /* CheckMate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CheckMate.framework; sourceTree = "<group>"; };
 		4DAA499A1989622100592AC5 /* DieLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DieLabel.h; sourceTree = "<group>"; };
 		4DAA499B1989622100592AC5 /* DieLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DieLabel.m; sourceTree = "<group>"; };
+		4DAA499D1989A78400592AC5 /* ScoreCalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScoreCalculator.h; sourceTree = "<group>"; };
+		4DAA499E1989A78400592AC5 /* ScoreCalculator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScoreCalculator.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +131,8 @@
 				4DAA499B1989622100592AC5 /* DieLabel.m */,
 				4DAA497B1989604300592AC5 /* Images.xcassets */,
 				4DAA496A1989604300592AC5 /* Supporting Files */,
+				4DAA499D1989A78400592AC5 /* ScoreCalculator.h */,
+				4DAA499E1989A78400592AC5 /* ScoreCalculator.m */,
 			);
 			path = Farkle;
 			sourceTree = "<group>";
@@ -260,6 +265,7 @@
 			files = (
 				4DAA497A1989604300592AC5 /* ViewController.m in Sources */,
 				4DAA49741989604300592AC5 /* AppDelegate.m in Sources */,
+				4DAA499F1989A78400592AC5 /* ScoreCalculator.m in Sources */,
 				4DAA49701989604300592AC5 /* main.m in Sources */,
 				4DAA499C1989622100592AC5 /* DieLabel.m in Sources */,
 			);
