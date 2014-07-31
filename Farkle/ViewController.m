@@ -12,7 +12,8 @@
 
 typedef enum {
     PLAYER_1 = 1,
-    PLAYER_2 = 2
+    PLAYER_2 = 2,
+    NONE
 } Player;
 
 
@@ -26,12 +27,12 @@ typedef enum {
 @property (weak, nonatomic) IBOutlet DieLabel *dieLabel6;
 @property (weak, nonatomic) IBOutlet UILabel *player1Score;
 @property (weak, nonatomic) IBOutlet UILabel *player2Score;
+@property (weak, nonatomic) IBOutlet UILabel *partialScore;
 
 @property NSMutableArray *dice;
 @property NSMutableArray *rolledDice;
-@property ScoreCalculator * player1SC;
-@property ScoreCalculator * player2SC;
-@property int partialScoreInt;
+@property Player playerTurn;
+//@property int partialScoreInt; BAD practice use label to get values naughty Ale
 
 
 @end
@@ -57,6 +58,8 @@ typedef enum {
                                                         self.dieLabel5,
                                                         self.dieLabel6,
                                                         nil];
+    
+    [self changeTurn];
 
 }
 
@@ -84,7 +87,7 @@ typedef enum {
         }
         
     }
-    [self calculatePoints];
+    self.partialScore.text = [NSString stringWithFormat:@"%i", [self calculatePoints] ];
 }
 
 //Dice combination	Score
@@ -97,7 +100,7 @@ typedef enum {
 //Three 5s	500
 //Three 6s	600
 
-- (void) calculatePoints
+- (int) calculatePoints
 {
     int oneCounter = 0;
     int twoCounter= 0;
@@ -163,22 +166,67 @@ typedef enum {
         [self markDiceWithValue:6 inQuantity:sixCounter];
     }
     
+    return points;
+    
 }
 
 - (void) markDiceWithValue: (int)value inQuantity: (int) qtty
 {
     // We already know that the value exists, so I have to just mark the labels that have the value
     int counter = 0;
+    NSMutableArray * auxArray = [NSMutableArray arrayWithArray: self.rolledDice];
+    
     for ( DieLabel *die in self.rolledDice ) {
         if ([die.text intValue] == value && counter < qtty ) {
             [self.dice addObject:die];
-            [self.rolledDice removeObject:die];
+            [auxArray removeObject:die];
+             die.backgroundColor = [UIColor greenColor];
             counter++;
         }
         
     }
+    self.rolledDice = auxArray;
 }
 
+- (void) changeTurn
+{
+    if (self.playerTurn == PLAYER_1 || self.playerTurn == NONE) {
+        
+        self.player1Score.textColor = [UIColor whiteColor];
+        self.player1Score.backgroundColor = [UIColor redColor];
+        self.player2Score.textColor = [UIColor blueColor];
+        self.player2Score.backgroundColor = [UIColor whiteColor];
+        
+        self.player1Score.text = [NSString stringWithFormat:@"%i", [self.player1Score.text intValue] + [self.partialScore.text intValue] ];
+        
+    } else {
+        self.player2Score.textColor = [UIColor whiteColor];
+        self.player2Score.backgroundColor = [UIColor blueColor];
+        self.player1Score.textColor = [UIColor redColor];
+        self.player1Score.backgroundColor = [UIColor whiteColor];
+        
+        self.player2Score.text = [NSString stringWithFormat:@"%i", [self.player2Score.text intValue] + [self.partialScore.text intValue] ];
+
+    }
+    
+    self.partialScore.text = @"Partial Score";
+}
+
+- (void) reset
+{
+    [self.dice removeAllObjects];
+    [self.rolledDice removeAllObjects];
+    self.rolledDice = [NSMutableArray  arrayWithObjects:self.dieLabel1,
+                                         self.dieLabel2,
+                                         self.dieLabel3,
+                                         self.dieLabel4,
+                                         self.dieLabel5,
+                                         self.dieLabel6,
+                                         nil];
+   // self.partialScoreInt = 0;
+    self.partialScore.text = nil;
+    
+}
 
 
 @end

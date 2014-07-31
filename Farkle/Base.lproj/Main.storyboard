@@ -139,6 +139,7 @@
                         <outlet property="dieLabel4" destination="xfE-rY-UC1" id="pqk-T3-onk"/>
                         <outlet property="dieLabel5" destination="1FI-3K-xf4" id="zoP-ah-sVr"/>
                         <outlet property="dieLabel6" destination="pR0-ps-pry" id="oD2-GL-sKu"/>
+                        <outlet property="partialScore" destination="j00-04-u1Y" id="vqV-Xp-Cer"/>
                         <outlet property="player1Score" destination="qJe-bv-Q05" id="AXs-d6-4NU"/>
                         <outlet property="player2Score" destination="Ujv-TW-gr5" id="FSR-MO-dkl"/>
                     </connections>
