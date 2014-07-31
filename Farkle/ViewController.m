@@ -32,7 +32,11 @@ typedef enum {
 @property NSMutableArray *dice;
 @property NSMutableArray *rolledDice;
 @property Player playerTurn;
-//@property int partialScoreInt; BAD practice use label to get values naughty Ale
+@property int partialScoreInt; //BAD practice use label to get values naughty Ale
+@property int player1ScoreInt;
+@property int player2ScoreInt;
+@property BOOL isLastTurnPlayer1;
+@property BOOL isLastTurnPlayer2;
 
 
 @end
@@ -75,6 +79,8 @@ typedef enum {
 - (IBAction)onBankButtonPressed:(id)sender
 {
     
+    [self changeTurn];
+    
 }
 
 
@@ -87,7 +93,19 @@ typedef enum {
         }
         
     }
-    self.partialScore.text = [NSString stringWithFormat:@"%i", [self calculatePoints] ];
+    
+    int tempPoints = [self calculatePoints];
+    
+    if (tempPoints == 0) {
+        [self changeTurn];
+        self.partialScoreInt = 0;
+        
+    } else {
+        self.partialScoreInt += tempPoints;
+    }
+    
+    
+    self.partialScore.text = [NSString stringWithFormat:@"%i", self.partialScoreInt ];
 }
 
 //Dice combination	Score
@@ -138,7 +156,7 @@ typedef enum {
     if (oneCounter >= 3) {
         points += 1000;
         [self markDiceWithValue:1 inQuantity:3];
-    } else if (oneCounter > 1){
+    } else if (oneCounter >= 1){
         points += oneCounter * 100;
         [self markDiceWithValue:1 inQuantity:oneCounter];
     }
@@ -146,7 +164,7 @@ typedef enum {
     if (fiveCounter >= 3) {
         points += 500;
         [self markDiceWithValue:5 inQuantity:3];
-    } else if (fiveCounter > 1){
+    } else if (fiveCounter >= 1){
         points += fiveCounter * 50;
         [self markDiceWithValue:5 inQuantity:fiveCounter];
     }
@@ -191,25 +209,64 @@ typedef enum {
 - (void) changeTurn
 {
     if (self.playerTurn == PLAYER_1 || self.playerTurn == NONE) {
-        
-        self.player1Score.textColor = [UIColor whiteColor];
-        self.player1Score.backgroundColor = [UIColor redColor];
-        self.player2Score.textColor = [UIColor blueColor];
-        self.player2Score.backgroundColor = [UIColor whiteColor];
-        
-        self.player1Score.text = [NSString stringWithFormat:@"%i", [self.player1Score.text intValue] + [self.partialScore.text intValue] ];
-        
-    } else {
         self.player2Score.textColor = [UIColor whiteColor];
         self.player2Score.backgroundColor = [UIColor blueColor];
         self.player1Score.textColor = [UIColor redColor];
         self.player1Score.backgroundColor = [UIColor whiteColor];
         
-        self.player2Score.text = [NSString stringWithFormat:@"%i", [self.player2Score.text intValue] + [self.partialScore.text intValue] ];
+        self.player1ScoreInt += self.partialScoreInt;
+        
+        self.player1Score.text = [NSString stringWithFormat:@"%i", self.player1ScoreInt ];
+        
+        self.playerTurn = PLAYER_2;
+        
+        if (self.player1ScoreInt >= 1000 || self.isLastTurnPlayer2) {
+            self.isLastTurnPlayer1 = YES;
+        }
+        
+    } else {
+        self.player1Score.textColor = [UIColor whiteColor];
+        self.player1Score.backgroundColor = [UIColor redColor];
+        self.player2Score.textColor = [UIColor blueColor];
+        self.player2Score.backgroundColor = [UIColor whiteColor];
+        
+        self.player2ScoreInt += self.partialScoreInt;
+        
+        self.player2Score.text = [NSString stringWithFormat:@"%i", self.player2ScoreInt  ];
+        
+        self.playerTurn = PLAYER_1;
+        
+        if (self.player2ScoreInt >= 1000 || self.isLastTurnPlayer1) {
+            self.isLastTurnPlayer2 = YES;
+        }
 
     }
     
-    self.partialScore.text = @"Partial Score";
+    [self reset];
+    
+    if (self.isLastTurnPlayer1 && self.isLastTurnPlayer2) {
+        
+        NSString * winner;
+        
+        if (self.player1ScoreInt > self.player2ScoreInt) {
+            winner = @"Player 1";
+        } else {
+            winner = @"Player 2";
+        }
+        
+        UIAlertView * alertView = [[UIAlertView alloc]init];
+        alertView.title = @"Game result!";
+        alertView.message = [winner stringByAppendingString:@" won!"];
+        [alertView addButtonWithTitle:@"New Game"];
+        [alertView dismissWithClickedButtonIndex:0 animated:YES];
+        
+        [alertView show];
+        
+        [self resetToNewGame];
+    }
+    
+    
+ 
 }
 
 - (void) reset
@@ -223,9 +280,26 @@ typedef enum {
                                          self.dieLabel5,
                                          self.dieLabel6,
                                          nil];
-   // self.partialScoreInt = 0;
+    self.partialScoreInt = 0;
     self.partialScore.text = nil;
+    self.partialScore.text = @"0";
     
+    for (DieLabel *die in self.rolledDice)
+    {
+        die.backgroundColor = [UIColor lightGrayColor];
+        die.text = @"1";
+    }
+    
+}
+
+- (void) resetToNewGame
+{
+    [self reset];
+    self.player1ScoreInt = 0;
+    self.player2ScoreInt = 0;
+    self.partialScoreInt = 0;
+    self.playerTurn = PLAYER_1;
+    self.isLastTurnPlayer1 = NO;
 }
 
 
